@@ -1,6 +1,6 @@
 package frc.lib;
 
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
 
 public class PIDGains {
   public final double p;
@@ -13,7 +13,7 @@ public class PIDGains {
     d = _d;
   }
 
-  public static void setSparkMaxGains(SparkMaxPIDController _controller, PIDGains _gains) {
+  public static void setSparkMaxGains(SparkPIDController _controller, PIDGains _gains) {
     _controller.setP(_gains.p);
     _controller.setI(_gains.i);
     _controller.setD(_gains.d);
