@@ -127,17 +127,19 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() { // This method will be called once per scheduler run
     // if we've reached the position target, drop out of position mode
-    if (m_positionMode && isNearTarget()) {
-      m_positionMode = false;
-      m_power = 0.0;
-    }
+    // if (m_positionMode && isNearTarget()) {
+    //   m_positionMode = false;
+    //   m_power = 0.0;
+    // }
 
-    // update the motor power based on mode and setpoint
-    if (m_positionMode) {
-      m_controller.setReference(m_targetPosition, ControlType.kPosition);
-    } else {
-      m_gatekeeper.set(m_power);
-    }
+    // // update the motor power based on mode and setpoint
+    // if (m_positionMode) {
+    //   m_controller.setReference(m_targetPosition, ControlType.kPosition);
+    // } else {
+    //   m_gatekeeper.set(m_power);
+    // }
+    
+    m_gatekeeper.set(m_power);
   }
 
   /**
@@ -149,4 +151,18 @@ public class IntakeSubsystem extends SubsystemBase {
     return Math.abs(m_encoder.getPosition() - m_targetPosition)
         < Constants.Intake.kPositionTolerance;
   }
+
+  public void intake() {
+    m_power = Constants.Intake.kIntakePower;
+  }
+
+
+  public void outtake() {
+    m_power = -Constants.Intake.kIntakePower;
+  }
+
+  public void stop() {
+    m_power = 0;
+  }
+
 }

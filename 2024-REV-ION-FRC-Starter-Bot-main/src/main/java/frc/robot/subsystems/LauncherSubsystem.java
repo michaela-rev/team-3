@@ -13,6 +13,7 @@ public class LauncherSubsystem extends SubsystemBase {
 
   private boolean m_launcherRunning;
   private boolean m_gatekeeperRunning;
+  private double m_gatekeeperPower;
 
   /** Creates a new LauncherSubsystem. */
   public LauncherSubsystem() {
@@ -34,6 +35,7 @@ public class LauncherSubsystem extends SubsystemBase {
     m_gatekeeper.burnFlash();
 
     m_launcherRunning = false;
+    m_gatekeeperPower = 0.0;
   }
 
   /**
@@ -41,7 +43,11 @@ public class LauncherSubsystem extends SubsystemBase {
    * in a {@code RunCommand}.
    */
   public void runGatekeeper() {
-    m_gatekeeperRunning = true;
+    m_gatekeeperPower = Constants.Launcher.kGatePower;
+  }
+
+  public void reverseGatekeeper() {
+    m_gatekeeperPower = -Constants.Launcher.kGatePower;
   }
 
   /**
@@ -49,7 +55,7 @@ public class LauncherSubsystem extends SubsystemBase {
    * in a {@code RunCommand}.
    */
   public void stopGatekeeper() {
-    m_gatekeeperRunning = false;
+    m_gatekeeperPower = 0.0;
   }
 
   @Override
@@ -61,11 +67,13 @@ public class LauncherSubsystem extends SubsystemBase {
       m_launcher.set(0.0);
     }
 
-    if (m_gatekeeperRunning) {
-      m_gatekeeper.set(Constants.Launcher.kGatePower);
-    } else {
-      m_gatekeeper.set(0.0);
-    }
+    // if (m_gatekeeperRunning) {
+    //   m_gatekeeper.set(Constants.Launcher.kGatePower);
+    // } else {
+    //   m_gatekeeper.set(0.0);
+    // }
+
+    m_gatekeeper.set(m_gatekeeperPower);
   }
 
   /**

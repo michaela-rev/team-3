@@ -35,6 +35,7 @@ public final class Constants {
     public static final double kPositionTolerance = 0.5;
 
     public static final double kIntakePower = 0.4;
+    public static final double kOuttakePower = -.4;
 
     public static final double kRetractDistance = -3.5;
 
@@ -48,7 +49,7 @@ public final class Constants {
     public static final int kLaunchCurrentLimit = 80;
     public static final int kGateCurrentLimit = 60;
 
-    public static final double kLaunchPower = 0.6;
+    public static final double kLaunchPower = 0.5;
     public static final double kGatePower = 0.5;
   }
 

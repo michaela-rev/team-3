@@ -88,18 +88,56 @@ public class RobotContainer {
             () ->
                 m_driverController.getRightTriggerAxis()
                     > Constants.OIConstants.kTriggerButtonThreshold)
-        .whileTrue(new RunCommand(() -> m_intake.setPower(Constants.Intake.kIntakePower), m_intake))
-        .onFalse(m_intake.retract());
+        .whileTrue(new RunCommand(() -> {
+            m_intake.intake();
+        }, m_intake))
+        .onFalse(new RunCommand(() -> {
+            m_intake.stop();
+        }, m_intake));
 
+    
+    /**
+     * Right Trigger
+     * 
+     * Outtake ball from entire robot
+     */
+    new Trigger(
+            () ->
+                m_driverController.getLeftTriggerAxis()
+                    > Constants.OIConstants.kTriggerButtonThreshold)
+        .whileTrue(new RunCommand(() -> {
+            m_intake.outtake();
+            m_launcher.reverseGatekeeper();
+        }, m_intake, m_launcher))
+        .onFalse(new RunCommand(() -> {
+            m_intake.stop();
+            m_launcher.stopGatekeeper();
+        }, m_intake, m_launcher));
+
+    /**
+     * Y
+     * 
+     * Prime shooter
+     */
     new JoystickButton(m_driverController, XboxController.Button.kY.value)
-        .onTrue(new RunCommand(() -> m_launcher.runLauncher()));
+        .onTrue(new RunCommand(() -> m_launcher.runLauncher(), m_launcher));
 
+    /**
+     * A
+     * 
+     * Shoot
+     */
     new JoystickButton(m_driverController, XboxController.Button.kA.value)
         .whileTrue(new RunCommand(() -> m_launcher.runGatekeeper(), m_launcher))
-        .onFalse(new RunCommand(() -> m_launcher.stopGatekeeper()));
+        .onFalse(new RunCommand(() -> m_launcher.stopGatekeeper(), m_launcher));
 
+    /**
+     * B
+     * 
+     * Stop shooter
+     */
     new JoystickButton(m_driverController, XboxController.Button.kB.value)
-        .onTrue(new RunCommand(() -> m_launcher.stopLauncher()));
+        .onTrue(new RunCommand(() -> m_launcher.stopLauncher(), m_launcher));
   }
 
   /**
