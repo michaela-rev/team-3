@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -15,7 +15,7 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  private CANSparkMax m_motor;
+  private CANSparkMax m_gatekeeper;
   private RelativeEncoder m_encoder;
   private SparkPIDController m_controller;
 
@@ -26,17 +26,20 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     // create a new SPARK MAX and configure it
-    m_motor = new CANSparkMax(Constants.Intake.kCanId, MotorType.kBrushless);
-    m_motor.setInverted(false);
-    m_motor.setSmartCurrentLimit(Constants.Intake.kCurrentLimit);
-    m_motor.setIdleMode(IdleMode.kBrake);
 
-    m_encoder = m_motor.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
+    m_gatekeeper = new CANSparkMax(Constants.Intake.kCanId, CANSparkLowLevel.MotorType.kBrushless);
+    m_gatekeeper.setInverted(false);
+    m_gatekeeper.setSmartCurrentLimit(Constants.Intake.kCurrentLimit);
+    m_gatekeeper.setIdleMode(IdleMode.kBrake);
 
-    m_controller = m_motor.getPIDController();
+    m_gatekeeper.burnFlash();
+
+    m_encoder = m_gatekeeper.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
+
+    m_controller = m_gatekeeper.getPIDController();
     PIDGains.setSparkMaxGains(m_controller, Constants.Intake.kPositionGains);
 
-    m_motor.burnFlash();
+    m_gatekeeper.burnFlash();
 
     m_positionMode = false;
     m_targetPosition = m_encoder.getPosition();
@@ -133,7 +136,7 @@ public class IntakeSubsystem extends SubsystemBase {
     if (m_positionMode) {
       m_controller.setReference(m_targetPosition, ControlType.kPosition);
     } else {
-      m_motor.set(m_power);
+      m_gatekeeper.set(m_power);
     }
   }
 

@@ -5,7 +5,6 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -27,44 +26,15 @@ public final class Constants {
     public static final double kTriggerButtonThreshold = 0.5;
   }
 
-  public static final class Arm {
-    public static final int kArmCanId = 2;
-    public static final boolean kArmInverted = true;
-    public static final int kCurrentLimit = 40;
-
-    public static final double kSoftLimitReverse = -1.15;
-    public static final double kSoftLimitForward = 0.0;
-
-    public static final double kArmGearRatio = (1.0 / 25.0) * (28.0 / 50.0) * (16.0 / 64.0);
-    public static final double kPositionFactor =
-        kArmGearRatio
-            * 2.0
-            * Math.PI; // multiply SM value by this number and get arm position in radians
-    public static final double kVelocityFactor = kArmGearRatio * 2.0 * Math.PI / 60.0;
-    public static final double kArmFreeSpeed = 5676.0 * kVelocityFactor;
-    public static final double kArmZeroCosineOffset =
-        1.342; // radians to add to converted arm position to get real-world arm position (starts at
-    // ~76.9deg angle)
-    public static final ArmFeedforward kArmFeedforward =
-        new ArmFeedforward(0.0, 3.0, 12.0 / kArmFreeSpeed, 0.0);
-    public static final PIDGains kArmPositionGains = new PIDGains(2.5, 0.0, 0.0);
-    public static final TrapezoidProfile.Constraints kArmMotionConstraint =
-        new TrapezoidProfile.Constraints(1.0, 2.0);
-
-    public static final double kHomePosition = 0.0;
-    public static final double kScoringPosition = 0.0;
-    public static final double kIntakePosition = -1.17;
-  }
-
   public static final class Intake {
-    public static final int kCanId = 1;
+    public static final int kCanId = 5;
     public static final boolean kMotorInverted = true;
-    public static final int kCurrentLimit = 80;
+    public static final int kCurrentLimit = 60;
 
     public static final PIDGains kPositionGains = new PIDGains(1.0, 0.0, 0.0);
     public static final double kPositionTolerance = 0.5;
 
-    public static final double kIntakePower = 0.7;
+    public static final double kIntakePower = 0.4;
 
     public static final double kRetractDistance = -3.5;
 
@@ -72,13 +42,14 @@ public final class Constants {
   }
 
   public static final class Launcher {
-    public static final int kTopCanId = 3;
-    public static final int kBottomCanId = 4;
+    public static final int kLaunchCanId = 13;
+    public static final int kGateCanId = 6;
 
-    public static final int kCurrentLimit = 80;
+    public static final int kLaunchCurrentLimit = 80;
+    public static final int kGateCurrentLimit = 60;
 
-    public static final double kTopPower = 0.7;
-    public static final double kBottomPower = 0.8;
+    public static final double kLaunchPower = 0.6;
+    public static final double kGatePower = 0.5;
   }
 
   public static final class DriveConstants {
@@ -87,9 +58,9 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 4.8;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-    public static final double kDirectionSlewRate = 1.2; // radians per second
-    public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
-    public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
+    public static final double kDirectionSlewRate = 0; // radians per second
+    public static final double kMagnitudeSlewRate = 0; // percent per second (1 = 100%)
+    public static final double kRotationalSlewRate = 0; // percent per second (1 = 100%)
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(20.5);
@@ -127,7 +98,7 @@ public final class Constants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T, 13T, or 14T.
     // This changes the drive speed of the module (a pinion gear with more teeth will result in a
     // robot that drives faster).
-    public static final int kDrivingMotorPinionTeeth = 14;
+    public static final int kDrivingMotorPinionTeeth = 12;
 
     // Invert the turning encoder, since the output shaft rotates in the opposite direction of
     // the steering motor in the MAXSwerve Module.

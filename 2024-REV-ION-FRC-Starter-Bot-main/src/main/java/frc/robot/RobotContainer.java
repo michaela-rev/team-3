@@ -64,7 +64,7 @@ public class RobotContainer {
                     false),
             m_robotDrive));
 
-  // set the intake to stop (0 power) when no other command is running
+    // set the intake to stop (0 power) when no other command is running
     m_intake.setDefaultCommand(new RunCommand(() -> m_intake.setPower(0.0), m_intake));
 
     // configure the launcher to stop when no other command is running
@@ -92,14 +92,14 @@ public class RobotContainer {
         .onFalse(m_intake.retract());
 
     new JoystickButton(m_driverController, XboxController.Button.kY.value)
-        .whileTrue(new RunCommand(() -> m_intake.setPower(-1.0)));
-
-    // launcher controls (button to pre-spin the launcher and button to launch)
-    new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
-        .whileTrue(new RunCommand(() -> m_launcher.runLauncher(), m_launcher));
+        .onTrue(new RunCommand(() -> m_launcher.runLauncher()));
 
     new JoystickButton(m_driverController, XboxController.Button.kA.value)
-        .onTrue(m_intake.feedLauncher(m_launcher));
+        .whileTrue(new RunCommand(() -> m_launcher.runGatekeeper(), m_launcher))
+        .onFalse(new RunCommand(() -> m_launcher.stopGatekeeper()));
+
+    new JoystickButton(m_driverController, XboxController.Button.kB.value)
+        .onTrue(new RunCommand(() -> m_launcher.stopLauncher()));
   }
 
   /**
