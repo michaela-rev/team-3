@@ -148,16 +148,15 @@ public class RobotContainer {
         .onTrue(new RunCommand(() -> m_launcher.stopLauncher(), m_launcher));
 
 
-    // /**
-    //  * Start
-    //  * 
-    //  * Reset heading
-    //  */
-    // new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-    //     .onTrue(new RunCommand(() -> {
-    //         m_robotDrive.zeroHeading();
-    //         m_robotDrive.resetEncoders();
-    //     }));
+    /**
+     * Start
+     * 
+     * Reset heading
+     */
+    new JoystickButton(m_driverController, XboxController.Button.kStart.value)
+        .onTrue(new InstantCommand(() -> {
+            m_robotDrive.zeroHeading();
+        }, m_robotDrive));
   }
 
   /**
