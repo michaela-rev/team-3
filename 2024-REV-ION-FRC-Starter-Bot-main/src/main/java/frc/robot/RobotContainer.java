@@ -68,7 +68,7 @@ public class RobotContainer {
     m_intake.setDefaultCommand(new RunCommand(() -> m_intake.setPower(0.0), m_intake));
 
     // configure the launcher to stop when no other command is running
-    m_launcher.setDefaultCommand(new RunCommand(() -> m_launcher.stopLauncher(), m_launcher));
+    // m_launcher.setDefaultCommand(new RunCommand(() -> m_launcher.stopLauncher(), m_launcher));
   }
 
   /**
@@ -90,10 +90,12 @@ public class RobotContainer {
                     > Constants.OIConstants.kTriggerButtonThreshold)
         .whileTrue(new RunCommand(() -> {
             m_intake.intake();
-        }, m_intake))
+            m_launcher.runGatekeeper();
+        }, m_intake, m_launcher))
         .onFalse(new RunCommand(() -> {
             m_intake.stop();
-        }, m_intake));
+            m_launcher.stopGatekeeper();
+        }, m_intake, m_launcher));
 
     
     /**
@@ -120,7 +122,7 @@ public class RobotContainer {
      * Prime shooter
      */
     new JoystickButton(m_driverController, XboxController.Button.kY.value)
-        .onTrue(new RunCommand(() -> m_launcher.runLauncher(), m_launcher));
+        .onTrue(m_launcher.primeLauncher());
 
     /**
      * A

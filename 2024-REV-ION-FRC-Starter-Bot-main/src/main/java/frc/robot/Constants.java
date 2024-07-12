@@ -49,7 +49,7 @@ public final class Constants {
     public static final int kLaunchCurrentLimit = 80;
     public static final int kGateCurrentLimit = 60;
 
-    public static final double kLaunchPower = 0.5;
+    public static final double kLaunchPower = 0.45;
     public static final double kGatePower = 0.5;
   }
 
