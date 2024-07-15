@@ -45,6 +45,7 @@ public class RobotContainer {
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  XboxController m_operatorController = new XboxController(1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -59,11 +60,11 @@ public class RobotContainer {
             () ->
                 m_robotDrive.drive(
                     -GamepadUtils.squareInput(
-                        m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+                        m_driverController.getLeftY() * 0.8, OIConstants.kDriveDeadband),
                     -GamepadUtils.squareInput(
-                        m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+                        m_driverController.getLeftX() * 0.8, OIConstants.kDriveDeadband),
                     -GamepadUtils.squareInput(
-                        m_driverController.getRightX(), OIConstants.kDriveDeadband),
+                        m_driverController.getRightX() * 0.8, OIConstants.kDriveDeadband),
                     true,
                     false),
             m_robotDrive));
@@ -90,7 +91,7 @@ public class RobotContainer {
     // released)
     new Trigger(
             () ->
-                m_driverController.getRightTriggerAxis()
+                m_operatorController.getRightTriggerAxis()
                     > Constants.OIConstants.kTriggerButtonThreshold)
         .whileTrue(new RunCommand(() -> {
             m_intake.intake();
@@ -109,7 +110,7 @@ public class RobotContainer {
      */
     new Trigger(
             () ->
-                m_driverController.getLeftTriggerAxis()
+                m_operatorController.getLeftTriggerAxis()
                     > Constants.OIConstants.kTriggerButtonThreshold)
         .whileTrue(new RunCommand(() -> {
             m_intake.outtake();
@@ -127,7 +128,7 @@ public class RobotContainer {
      * 
      * Prime shooter
      */
-    new JoystickButton(m_driverController, XboxController.Button.kY.value)
+    new JoystickButton(m_operatorController, XboxController.Button.kY.value)
         .onTrue(m_launcher.primeLauncher());
 
     /**
@@ -144,7 +145,7 @@ public class RobotContainer {
      * 
      * Stop shooter
      */
-    new JoystickButton(m_driverController, XboxController.Button.kB.value)
+    new JoystickButton(m_operatorController, XboxController.Button.kB.value)
         .onTrue(new RunCommand(() -> m_launcher.stopLauncher(), m_launcher));
 
 
@@ -154,6 +155,16 @@ public class RobotContainer {
      * Reset heading
      */
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
+        .onTrue(new InstantCommand(() -> {
+            m_robotDrive.zeroHeading();
+        }, m_robotDrive));
+
+            /**
+     * Start
+     * 
+     * Reset heading
+     */
+    new JoystickButton(m_operatorController, XboxController.Button.kStart.value)
         .onTrue(new InstantCommand(() -> {
             m_robotDrive.zeroHeading();
         }, m_robotDrive));

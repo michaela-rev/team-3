@@ -34,8 +34,8 @@ public final class Constants {
     public static final PIDGains kPositionGains = new PIDGains(1.0, 0.0, 0.0);
     public static final double kPositionTolerance = 0.5;
 
-    public static final double kIntakePower = 0.4;
-    public static final double kOuttakePower = -.4;
+    public static final double kIntakePower = 0.6;
+    public static final double kOuttakePower = -.6;
 
     public static final double kRetractDistance = -3.5;
 

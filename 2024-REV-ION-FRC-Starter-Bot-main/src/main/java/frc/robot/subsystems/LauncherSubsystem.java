@@ -91,7 +91,7 @@ public class LauncherSubsystem extends SubsystemBase {
   }
 
   public void reverseLauncher() {
-    m_launcherPower = -0.2;
+    m_launcherPower = -0.5;
   }
 
   /**
